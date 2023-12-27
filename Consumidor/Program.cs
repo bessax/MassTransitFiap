@@ -1,5 +1,6 @@
 using Consumidor;
 using Consumidor.Eventos;
+using Core;
 using MassTransit;
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -14,10 +15,14 @@ IHost host = Host.CreateDefaultBuilder(args)
            x.UsingAzureServiceBus((context, cfg) => {
                
                cfg.Host(conexao);
-               cfg.ReceiveEndpoint(fila, e =>
+               //cfg.ReceiveEndpoint(fila, e =>
+               //{
+               //    e.Consumer<PedidoCriadoConsumidor>();             
+               //});
+               cfg.SubscriptionEndpoint("sub-1","topico", e =>
                {
-                   e.Consumer<PedidoCriadoConsumidor>();             
-               });
+                     e.Consumer<PedidoCriadoConsumidor>();
+                });
 
            });
         });

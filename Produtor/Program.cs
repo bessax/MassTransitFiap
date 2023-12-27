@@ -1,3 +1,4 @@
+using Core;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,9 @@ builder.Services.AddMassTransit(x =>
     x.UsingAzureServiceBus((context, cfg) =>
     {
         cfg.Host(conexao);
+        cfg.Message<Pedido>(x=> {
+            x.SetEntityName("topico");
+        });
     });
 });
 
